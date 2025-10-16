@@ -1,0 +1,83 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(218, 107, 38);
+  padding: 10px 20px;
+  position: relative;
+  width: 100%;
+}
+
+/* Only style the main navbar list (exclude dropdown menu) */
+.navbar > ul {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+/* Navbar icons color */
+.navbar > ul i {
+  color: white;
+  margin-right: 20px;
+}
+
+/* Hamburger button */
+.dropdown button {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: white;
+}
+#MenuBtn {
+  margin-right: 20px;
+}
+/* Dropdown menu styling */
+.dropdown-menu {
+  display: none; /* hide initially */
+  position: absolute;
+  top: 30px; /* below navbar */
+  right: 0; /*aligned to right */
+  margin-right: 50px;
+  background-color: white;
+  list-style: none;
+  padding: 0;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  z-index: 1000;
+}
+.dropdown-menu li a {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  /* font-weight: bolder; */
+}
+.dropdown-menu li:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Dropdown links */
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: black;
+  margin-left: 0px;
+}
+.Close-menu {
+  color: red;
+  margin-left: 12px;
+}
+/* Hover effect */
+.dropdown-menu li a:hover {
+  background-color: rgb(189, 131, 168);
+  border-radius: 20px;
+}
