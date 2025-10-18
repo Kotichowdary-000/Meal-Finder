@@ -7,6 +7,9 @@
   padding: 10px 20px;
   position: relative;
   width: 100%;
+  position: relative;
+  position: fixed;
+  z-index: 1000;
 }
 
 /* Only style the main navbar list (exclude dropdown menu) */
@@ -36,7 +39,7 @@
   color: white;
 }
 #MenuBtn {
-  margin-right: 20px;
+  margin-right: 30px;
 }
 /* Dropdown menu styling */
 .dropdown-menu {
@@ -62,6 +65,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* flex-direction: column; */
 }
 
 /* Dropdown links */
@@ -76,8 +80,102 @@
   color: red;
   margin-left: 12px;
 }
+.Close-menu i {
+  cursor: pointer;
+  margin-right: 8px;
+}
+
 /* Hover effect */
 .dropdown-menu li a:hover {
   background-color: rgb(189, 131, 168);
   border-radius: 20px;
+}
+/* Banner image */
+.Background img {
+  filter: blur(3px);
+  width: 100%;
+  height: 350px;
+}
+
+.text-overlay {
+  height: 40px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  /* background: rgba(0, 0, 0, 0.5); semi-transparent background */
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+.Search-bar {
+  position: relative;
+  left: 20%;
+}
+
+.para {
+  position: relative;
+  left: 20%;
+}
+.text-overlay input[type="text"] {
+  height: 40px;
+  width: 250px;
+  border-radius: 25px;
+}
+.Searchicon {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.Head1 {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* text-decoration: underline; */
+  text-decoration-color: rgb(235, 121, 34);
+  text-underline-offset: 3px;
+  background-image: linear-gradient(to left, transparent 30%, #ff6b35 50%);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 5px;
+  display: inline-block;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 40px;
+}
+.category-card {
+  background: #d0d0d0;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+.category-card img {
+  width: 100%;
+  height: 15 0px;
+  object-fit: cover;
+}
+
+.category-card:hover {
+  border: 2px solid white;
+  transform: scale(1.05);
+}
+.category-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff6347;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  font-weight: bold;
 }

@@ -8,13 +8,6 @@ menuBtn.addEventListener("click", (e) => {
     dropdownMenu.style.display === "block" ? "none" : "block";
 });
 
-// Close dropdown if clicking outside
-document.addEventListener("click", (e) => {
-  if (!dropdownMenu.contains(e.target) && e.target !== menuBtn) {
-    dropdownMenu.style.display = "none";
-  }
-});
-
 // Optional: prevent page jump for href="#"
 document.querySelectorAll(".dropdown-menu a").forEach((link) => {
   link.addEventListener("click", (e) => e.preventDefault());
@@ -26,3 +19,19 @@ closeMenu.addEventListener("click", () => {
   const dropdownMenu = document.querySelector(".dropdown-menu");
   dropdownMenu.style.display = "none";
 });
+
+// to get the photos from the api and load in the categories section
+const grid = document.querySelector(".categories-grid");
+fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
+  .then((res) => res.json())
+  .then((data) => {
+    data.categories.forEach((cat) => {
+      const card = document.createElement("div");
+      card.className = "category-card";
+      card.innerHTML = `
+        <img src="${cat.strCategoryThumb}" alt="${cat.strCategory}">
+        <span class="category-label">${cat.strCategory}</span>
+      `;
+      grid.appendChild(card);
+    });
+  });
