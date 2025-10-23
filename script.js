@@ -137,7 +137,7 @@ function displayMealDetails(meal) {
     .map(
       (measure, index) => `
       <div class="measure-item">
-        <i class="fa-solid fa-carrot"></i>
+       <i class="fa-solid fa-spoon"></i>
         <span>${measure}</span>
       </div>
     `
@@ -200,7 +200,7 @@ function displayMealDetails(meal) {
             .split("\n")
             .map((line) =>
               line.trim()
-                ? `<p><i class="fa-solid fa-circle"></i> ${line}</p>`
+                ? `<p><i class="fa-solid fa-square-check"></i> ${line}</p>`
                 : ""
             )
             .join("")}

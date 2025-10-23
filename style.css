@@ -201,8 +201,18 @@
 
 /* Meals Header */
 .meals-header {
-  text-align: center;
+  text-align: left;
   margin-bottom: 30px;
+  color: black;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration-color: rgb(235, 121, 34);
+  text-underline-offset: 3px;
+  background-image: linear-gradient(to left, transparent 30%, #ff6b35 50%);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 5px;
+  display: inline-block;
+  letter-spacing: 2px;
 }
 
 .meals-header h2 {
@@ -463,7 +473,7 @@
 
 .instructions-content i {
   color: #ff6b35;
-  font-size: 8px;
+  font-size: 15px;
   margin-top: 8px;
 }
 
