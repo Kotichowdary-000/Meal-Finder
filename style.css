@@ -5,9 +5,8 @@
   align-items: center;
   background-color: rgb(218, 107, 38);
   padding: 10px 20px;
-  position: relative;
-  width: 100%;
   position: fixed;
+  width: 100%;
   z-index: 1000;
 }
 
@@ -61,21 +60,17 @@
 .dropdown-menu li a {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 15px;
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
 }
 
 .dropdown-menu li:first-child {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-/* Dropdown links */
-.dropdown-menu li a {
-  display: block;
-  padding: 10px 20px;
-  text-decoration: none;
-  color: black;
-  margin-left: 0px;
 }
 
 .Close-menu {
@@ -128,6 +123,9 @@
   height: 40px;
   width: 250px;
   border-radius: 25px;
+  border: none;
+  padding: 0 15px;
+  outline: none;
 }
 
 .Searchicon {
@@ -135,6 +133,15 @@
   width: 40px;
   border-radius: 50%;
   cursor: pointer;
+  background-color: rgb(218, 107, 38);
+  color: white;
+  border: none;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+.Searchicon:hover {
+  background-color: rgb(198, 87, 18);
 }
 
 .Head1 {
@@ -489,5 +496,17 @@
 
   .measures-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .text-overlay {
+    font-size: 18px;
+  }
+
+  .Search-bar {
+    left: 0;
+  }
+
+  .para {
+    left: 0;
   }
 }

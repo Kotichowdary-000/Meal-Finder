@@ -13,17 +13,31 @@ menuBtn.addEventListener("click", (e) => {
     dropdownMenu.style.display === "block" ? "none" : "block";
 });
 
-// Prevent page jump for href="#"
-document.querySelectorAll(".dropdown-menu a").forEach((link) => {
-  link.addEventListener("click", (e) => e.preventDefault());
-});
+// Prevent default anchor behavior on menu to avoid jump
+document
+  .querySelectorAll(".dropdown-menu a")
+  .forEach((link) => link.addEventListener("click", (e) => e.preventDefault()));
 
-// Close menu
+// Close menu when close icon clicked
 closeMenu.addEventListener("click", () => {
   dropdownMenu.style.display = "none";
 });
 
-// Load categories
+// Add click handling to hamburger menu items to fetch and display category meals
+document.querySelectorAll(".dropdown-menu a").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const category = link.textContent.trim();
+
+    // Close dropdown menu
+    dropdownMenu.style.display = "none";
+
+    // Fetch and display meals for clicked category
+    fetchCategoryMealsFromMenu(category);
+  });
+});
+
+// Load categories onto grid
 fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
   .then((res) => res.json())
   .then((data) => {
@@ -35,7 +49,6 @@ fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
         <span class="category-label">${cat.strCategory}</span>
       `;
 
-      // Add click event to each category card
       card.addEventListener("click", () => {
         fetchCategoryMeals(cat.strCategory, cat.strCategoryDescription);
       });
@@ -44,7 +57,7 @@ fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
     });
   });
 
-// Fetch meals by category
+// Fetch meals by category for grid cards (with description)
 async function fetchCategoryMeals(category, description) {
   try {
     const response = await fetch(
@@ -54,7 +67,6 @@ async function fetchCategoryMeals(category, description) {
 
     if (data.meals) {
       displayCategoryMeals(category, description, data.meals);
-      // Scroll to meals section
       mealsContainer.scrollIntoView({ behavior: "smooth" });
     }
   } catch (error) {
@@ -62,18 +74,45 @@ async function fetchCategoryMeals(category, description) {
   }
 }
 
-// Display category meals with description
+// Fetch meals by category from hamburger menu (no description)
+async function fetchCategoryMealsFromMenu(category) {
+  try {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+    );
+    const data = await response.json();
+
+    if (data.meals) {
+      displaySearchMeals(data.meals);
+      mealsContainer.scrollIntoView({ behavior: "smooth" });
+    } else {
+      mealsContainer.innerHTML = `
+        <div class="meals-header">
+          <h2>MEALS</h2>
+        </div>
+        <p class="no-results">No meals found in this category!</p>
+      `;
+      mealsContainer.scrollIntoView({ behavior: "smooth" });
+    }
+  } catch (error) {
+    console.error("Error fetching category meals:", error);
+    mealsContainer.innerHTML =
+      '<p class="no-results">Error loading meals. Please try again.</p>';
+  }
+}
+
+// Display meals with category description (grid cards)
 function displayCategoryMeals(category, description, meals) {
   const mealsHTML = meals
     .map(
       (meal) => `
         <div class="meal" onclick="fetchMealDetails('${meal.idMeal}')">
-            <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-            <div class="meal-info">
-                <h3>${meal.strMeal}</h3>
-            </div>
+          <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+          <div class="meal-info">
+            <h3>${meal.strMeal}</h3>
+          </div>
         </div>
-    `
+      `
     )
     .join("");
 
@@ -91,7 +130,32 @@ function displayCategoryMeals(category, description, meals) {
   `;
 }
 
-// Fetch meal details by ID
+// Display meals for search or menu category (no description)
+function displaySearchMeals(meals) {
+  const mealsHTML = meals
+    .map(
+      (meal) => `
+        <div class="meal" onclick="fetchMealDetails('${meal.idMeal}')">
+          <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+          <div class="meal-info">
+            <h3>${meal.strMeal}</h3>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  mealsContainer.innerHTML = `
+    <div class="meals-header">
+      <h2>MEALS</h2>
+    </div>
+    <div class="meals-grid">
+      ${mealsHTML}
+    </div>
+  `;
+}
+
+// Fetch detailed info of a meal by ID
 async function fetchMealDetails(mealId) {
   try {
     const response = await fetch(
@@ -107,9 +171,8 @@ async function fetchMealDetails(mealId) {
   }
 }
 
-// Display meal details
+// Display detailed meal info including ingredients and instructions
 function displayMealDetails(meal) {
-  // Get ingredients and measures
   const ingredients = [];
   const measures = [];
 
@@ -120,7 +183,6 @@ function displayMealDetails(meal) {
     }
   }
 
-  // Create ingredients HTML with icons
   const ingredientsHTML = ingredients
     .map(
       (ing) => `
@@ -132,12 +194,11 @@ function displayMealDetails(meal) {
     )
     .join("");
 
-  // Create measures HTML
   const measuresHTML = measures
     .map(
-      (measure, index) => `
+      (measure) => `
       <div class="measure-item">
-       <i class="fa-solid fa-spoon"></i>
+        <i class="fa-solid fa-spoon"></i>
         <span>${measure}</span>
       </div>
     `
@@ -151,15 +212,12 @@ function displayMealDetails(meal) {
       </button>
       
       <div class="meal-detail-content">
-        <!-- Left Side: Image -->
         <div class="meal-image-section">
           <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
         </div>
         
-        <!-- Right Side: Details -->
         <div class="meal-info-section">
           <h1 class="meal-title">${meal.strMeal}</h1>
-          
           <div class="meal-meta">
             <p><strong>CATEGORY:</strong> <span class="category-tag">${
               meal.strCategory
@@ -174,25 +232,18 @@ function displayMealDetails(meal) {
             }</span></p>
           </div>
           
-          <!-- Ingredients Box -->
           <div class="ingredients-box">
             <h3>Ingredients</h3>
-            <div class="ingredients-grid">
-              ${ingredientsHTML}
-            </div>
+            <div class="ingredients-grid">${ingredientsHTML}</div>
           </div>
         </div>
       </div>
-      
-      <!-- Measures Section -->
+
       <div class="measures-section">
         <h3>Measure:</h3>
-        <div class="measures-grid">
-          ${measuresHTML}
-        </div>
+        <div class="measures-grid">${measuresHTML}</div>
       </div>
-      
-      <!-- Instructions Section -->
+
       <div class="instructions-section">
         <h3>Instructions:</h3>
         <div class="instructions-content">
@@ -244,31 +295,6 @@ searchBtn.addEventListener("click", async () => {
       '<p class="no-results">Error loading meals. Please try again.</p>';
   }
 });
-
-// Display search results
-function displaySearchMeals(meals) {
-  const mealsHTML = meals
-    .map(
-      (meal) => `
-        <div class="meal" onclick="fetchMealDetails('${meal.idMeal}')">
-            <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-            <div class="meal-info">
-                <h3>${meal.strMeal}</h3>
-            </div>
-        </div>
-    `
-    )
-    .join("");
-
-  mealsContainer.innerHTML = `
-    <div class="meals-header">
-      <h2>MEALS</h2>
-    </div>
-    <div class="meals-grid">
-      ${mealsHTML}
-    </div>
-  `;
-}
 
 // Trigger search on Enter key
 searchInput.addEventListener("keypress", (e) => {
